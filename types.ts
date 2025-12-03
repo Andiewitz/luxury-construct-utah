@@ -6,7 +6,7 @@ export interface ServiceItem {
   title: string;
   description: string;
   image: string;
-  cols: string;
+  gridArea: string;
   alt: string;
 }
 

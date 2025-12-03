@@ -2,7 +2,8 @@
 export default {
   content: [
     "./index.html",
-    "./**/*.{js,ts,jsx,tsx}",
+    "./*.{js,ts,jsx,tsx}", // Scans App.tsx, index.tsx, types.ts in the root
+    "./components/**/*.{js,ts,jsx,tsx}", // Scans everything in components folder
   ],
   darkMode: "class",
   theme: {

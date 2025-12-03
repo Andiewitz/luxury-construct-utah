@@ -114,7 +114,7 @@ export const FloatingBackground: React.FC = () => {
       {CUBES.map((cube, index) => (
         <div
           key={cube.id}
-          ref={(el) => (cubeRefs.current[index] = el)}
+          ref={(el) => { cubeRefs.current[index] = el; }}
           className="absolute will-change-transform"
           // This outer div handles the JS Parallax Translation
           style={{
