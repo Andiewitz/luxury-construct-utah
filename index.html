@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Luxury Concrete & Landscaping</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&amp;family=Inter:wght@400;600&amp;display=swap"
+      rel="stylesheet"
+    />
+    
+    <!-- Material Icons (Required for Hero CTA arrow & Mobile Nav) -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+      rel="stylesheet"
+    />
+
+    <!-- Preconnect for Image Optimization -->
+    <link rel="preconnect" href="https://lh3.googleusercontent.com" />
+
+    <!-- Tailwind CSS (CDN for Live Preview) -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    
+    <!-- Tailwind Config (For Live Preview) -->
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#596a40",
+              "background-light": "#F9FAFB",
+              "background-dark": "#121212",
+              "text-light": "#1f2937",
+              "text-dark": "#f3f4f6",
+              "nav-dark": "rgba(11, 17, 30, 0.95)", // Darker Navy
+              "brand-gray-light": "#d1d5db",
+              "brand-gray-dark": "#4b5563",
+              
+              // New tokens for Services section
+              "card-light": "#FFFFFF",
+              "card-dark": "#1F2937",
+              "text-light-primary": "#111827",
+              "text-dark-primary": "#F9FAFB",
+              "text-light-secondary": "#4B5563",
+              "text-dark-secondary": "#9CA3AF",
+            },
+            fontFamily: {
+              display: ["Playfair Display", "serif"],
+              sans: ["Inter", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.5rem",
+              lg: "1rem",
+            },
+            boxShadow: {
+              "3d-green-light":
+                "10px 10px 25px rgba(0, 0, 0, 0.2), inset 5px 5px 15px rgba(255, 255, 255, 0.2)",
+              "3d-green-dark":
+                "12px 12px 30px rgba(0, 0, 0, 0.3), inset 8px 8px 20px rgba(255, 255, 255, 0.15)",
+            },
+            animation: {
+              'float': 'float 6s ease-in-out infinite',
+            },
+            keyframes: {
+              float: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-10px)' },
+              }
+            }
+          },
+        },
+      };
+    </script>
+
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "vite": "https://aistudiocdn.com/vite@^7.2.6",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1"
+  }
+}
+</script>
+</head>
+  <body class="bg-background-light dark:bg-background-dark font-sans antialiased select-none">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
