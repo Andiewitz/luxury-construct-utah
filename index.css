@@ -2,8 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom Scrollbar Styles (re-added if needed via CSS instead of HTML styles) */
-/* The user asked to remove them previously, so keeping this clean for native scrollbar */
+html {
+  scroll-behavior: smooth;
+}
 
 @layer utilities {
   .will-change-transform {

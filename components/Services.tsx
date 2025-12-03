@@ -132,7 +132,7 @@ export const Services: React.FC = () => {
                     <div className="relative z-10">
                       <div className="h-[3.5rem] flex items-end pb-1">
                         {/* H3 for semantic SEO structure */}
-                        <h3 className="font-display text-2xl lg:text-3xl font-bold group-hover:text-primary transition-colors duration-300 leading-none">
+                        <h3 className="font-display text-2xl lg:text-3xl font-bold group-hover:text-[#d4e5bc] transition-colors duration-300 leading-none">
                           {service.title}
                         </h3>
                       </div>
@@ -145,7 +145,7 @@ export const Services: React.FC = () => {
                         {/* Semantic List of Service Tags for robust keyword crawling */}
                         <ul className="flex flex-wrap gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
                           {service.tags.map((tag, i) => (
-                            <li key={i} className="text-[10px] uppercase tracking-wider font-semibold bg-white/10 px-2 py-1 rounded text-primary/90">
+                            <li key={i} className="text-[10px] uppercase tracking-wider font-semibold bg-white/10 px-2 py-1 rounded text-[#d4e5bc]">
                               {tag}
                             </li>
                           ))}

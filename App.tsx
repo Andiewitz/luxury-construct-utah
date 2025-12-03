@@ -2,6 +2,8 @@ import React from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { Services } from './components/Services';
+import { Process } from './components/Process';
+import { Testimonials } from './components/Testimonials';
 import { FloatingBackground } from './components/FloatingBackground';
 
 const App: React.FC = () => {
@@ -22,6 +24,12 @@ const App: React.FC = () => {
 
       {/* Services Section - Content Below Fold */}
       <Services />
+
+      {/* Process Section - How we work */}
+      <Process />
+
+      {/* Testimonials Section - Reviews */}
+      <Testimonials />
     </div>
   );
 };
