@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 // Helper to optimize Google Hosted images
@@ -140,6 +141,8 @@ export const Services: React.FC = () => {
                         ${getOptimizedImageUrl(service.image, 1200)} 1200w
                       `}
                       sizes={sizes}
+                      width={800}
+                      height={600}
                       alt={service.alt} 
                       loading="lazy"
                       decoding="async"
