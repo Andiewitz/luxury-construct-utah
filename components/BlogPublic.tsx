@@ -5,22 +5,26 @@ import { Navbar } from './Navbar';
 import { Contact } from './Contact';
 import { FloatingBackground } from './FloatingBackground';
 import { BlogPost } from '../types';
-import { getPosts } from '../utils/storage';
+import { loadPosts } from '../utils/blogLoader';
 
 export const BlogPublic: React.FC = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Only show published posts
-    const allPosts = getPosts();
-    setPosts(allPosts.filter(p => p.status === 'published'));
+    const fetch = async () => {
+      setIsLoading(true);
+      const allPosts = await loadPosts();
+      setPosts(allPosts.filter(p => p.status === 'published'));
+      setIsLoading(false);
+    };
+    fetch();
   }, []);
 
   return (
     <div className="min-h-screen flex flex-col bg-background-light dark:bg-background-dark font-sans text-text-light dark:text-text-dark">
       <Navbar />
 
-      {/* Hero Section for Blog */}
       <section className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gray-900 text-white">
         <FloatingBackground hideGradient={false} />
         
@@ -34,9 +38,10 @@ export const BlogPublic: React.FC = () => {
         </div>
       </section>
 
-      {/* Blog Listing */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
-        {posts.length > 0 ? (
+        {isLoading ? (
+          <div className="text-center py-20">Loading articles...</div>
+        ) : posts.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
             {posts.map((post) => (
               <Link to={`/blog/${post.slug}`} key={post.id} className="flex flex-col bg-white dark:bg-card-dark rounded-xl shadow-lg overflow-hidden border border-gray-100 dark:border-gray-800 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group cursor-pointer">
@@ -81,7 +86,6 @@ export const BlogPublic: React.FC = () => {
         )}
       </section>
 
-      {/* Reusing existing footer/contact section */}
       <Contact />
     </div>
   );

@@ -4,7 +4,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Navbar } from './Navbar';
 import { Contact } from './Contact';
 import { BlogPost as BlogPostType } from '../types';
-import { getPostBySlug } from '../utils/storage';
+import { loadPosts, loadPostContent } from '../utils/blogLoader';
 
 export const BlogPost: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -12,38 +12,45 @@ export const BlogPost: React.FC = () => {
   const [post, setPost] = useState<BlogPostType | null>(null);
 
   useEffect(() => {
-    if (slug) {
-      const foundPost = getPostBySlug(slug);
-      if (foundPost) {
-        setPost(foundPost);
+    const fetchData = async () => {
+      if (slug) {
+        // 1. Find metadata from manifest
+        const allPosts = await loadPosts();
+        const foundPost = allPosts.find(p => p.slug === slug);
         
-        // Update Page Title
-        document.title = foundPost.seo.metaTitle || `${foundPost.title} | Luxury Construction`;
-        
-        // Update Meta Description dynamically
-        let metaDesc = document.querySelector('meta[name="description"]');
-        if (!metaDesc) {
-          metaDesc = document.createElement('meta');
-          metaDesc.setAttribute('name', 'description');
-          document.head.appendChild(metaDesc);
-        }
-        metaDesc.setAttribute('content', foundPost.seo.metaDescription || foundPost.excerpt);
+        if (foundPost) {
+          // 2. Fetch the HTML content
+          const content = await loadPostContent(slug);
+          
+          setPost({
+            ...foundPost,
+            content: content || '<p>Content not found.</p>'
+          });
+          
+          // SEO Updates
+          document.title = foundPost.seo.metaTitle || `${foundPost.title} | Luxury Construction`;
+          let metaDesc = document.querySelector('meta[name="description"]');
+          if (!metaDesc) {
+            metaDesc = document.createElement('meta');
+            metaDesc.setAttribute('name', 'description');
+            document.head.appendChild(metaDesc);
+          }
+          metaDesc.setAttribute('content', foundPost.seo.metaDescription || foundPost.excerpt);
 
-      } else {
-        navigate('/404');
+        } else {
+          navigate('/404');
+        }
       }
-    }
+    };
+    
+    fetchData();
   }, [slug, navigate]);
 
-  if (!post) return null;
+  if (!post) return <div className="min-h-screen bg-gray-900 flex items-center justify-center text-white">Loading...</div>;
 
-  // Simple parser to handle newlines as paragraphs if not HTML
-  const renderContent = (content: string) => {
-    return content.split('\n').map((str, index) => (
-      <p key={index} className="mb-4 text-lg leading-relaxed text-gray-700 dark:text-gray-300">
-        {str}
-      </p>
-    ));
+  // Safe render helper
+  const renderHTML = (html: string) => {
+    return { __html: html };
   };
 
   // --- TEMPLATE 1: CLASSIC ---
@@ -76,9 +83,10 @@ export const BlogPost: React.FC = () => {
               </div>
             )}
 
-            <div className="prose prose-lg dark:prose-invert mx-auto max-w-3xl">
-               {renderContent(post.content)}
-            </div>
+            <div 
+              className="prose prose-lg dark:prose-invert mx-auto max-w-3xl"
+              dangerouslySetInnerHTML={renderHTML(post.content)}
+            />
             
             <div className="mt-16 pt-8 border-t border-gray-100 dark:border-gray-800 flex justify-center">
               <Link to="/blog" className="text-primary font-semibold hover:underline flex items-center gap-2">
@@ -93,14 +101,13 @@ export const BlogPost: React.FC = () => {
     );
   }
 
-  // --- TEMPLATE 2: MODERN (Split Screen) ---
+  // --- TEMPLATE 2: MODERN ---
   if (post.template === 'modern') {
     return (
       <div className="min-h-screen bg-white dark:bg-background-dark text-text-light dark:text-text-dark font-sans">
         <Navbar />
         
         <div className="flex flex-col lg:flex-row min-h-screen pt-20">
-          {/* Left Sidebar (Sticky) */}
           <div className="lg:w-5/12 p-8 lg:p-16 lg:sticky lg:top-20 lg:h-[calc(100vh-80px)] flex flex-col justify-center bg-gray-50 dark:bg-gray-900 border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-gray-800">
             <Link to="/blog" className="text-gray-400 hover:text-primary mb-8 flex items-center gap-2 text-sm font-bold uppercase tracking-wide">
               <span className="material-icons-outlined text-base">arrow_back</span> Blog
@@ -122,14 +129,14 @@ export const BlogPost: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Content (Scrollable) */}
           <div className="lg:w-7/12 p-8 lg:p-20">
             {post.coverImage && (
               <img src={post.coverImage} alt={post.title} className="w-full h-80 object-cover rounded-xl shadow-lg mb-12" />
             )}
-            <div className="prose prose-lg dark:prose-invert max-w-none">
-              {renderContent(post.content)}
-            </div>
+            <div 
+              className="prose prose-lg dark:prose-invert max-w-none"
+              dangerouslySetInnerHTML={renderHTML(post.content)}
+            />
           </div>
         </div>
         
@@ -138,12 +145,11 @@ export const BlogPost: React.FC = () => {
     );
   }
 
-  // --- TEMPLATE 3: IMMERSIVE (Parallax Header) ---
+  // --- TEMPLATE 3: IMMERSIVE ---
   return (
     <div className="min-h-screen bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark font-sans">
       <Navbar />
 
-      {/* Full Screen Hero */}
       <header className="relative h-[80vh] flex items-center justify-center overflow-hidden">
         {post.coverImage && (
           <div className="absolute inset-0 z-0">
@@ -167,12 +173,12 @@ export const BlogPost: React.FC = () => {
         </div>
       </header>
 
-      {/* Narrow Content Column */}
       <article className="max-w-3xl mx-auto px-6 py-24 -mt-20 relative z-20">
         <div className="bg-white dark:bg-card-dark p-8 md:p-16 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-800">
-           <div className="prose prose-lg dark:prose-invert max-w-none first-letter:text-5xl first-letter:font-display first-letter:font-bold first-letter:float-left first-letter:mr-3 first-letter:mt-[-5px]">
-              {renderContent(post.content)}
-           </div>
+           <div 
+             className="prose prose-lg dark:prose-invert max-w-none first-letter:text-5xl first-letter:font-display first-letter:font-bold first-letter:float-left first-letter:mr-3 first-letter:mt-[-5px]"
+             dangerouslySetInnerHTML={renderHTML(post.content)}
+           />
            
            <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
               <h3 className="font-display font-bold text-2xl mb-4">Share this article</h3>

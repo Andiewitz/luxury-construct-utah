@@ -1,25 +1,28 @@
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BlogPost, BlogTemplate } from '../types';
-import { getPosts, savePost, deletePost } from '../utils/storage';
+import { publishChanges } from '../utils/github';
+import { loadPosts, loadPostContent } from '../utils/blogLoader';
 
 export const AdminDashboard: React.FC = () => {
   const navigate = useNavigate();
   const [view, setView] = useState<'list' | 'editor'>('list');
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
+  const [isPublishing, setIsPublishing] = useState(false);
 
   useEffect(() => {
     const isAdmin = localStorage.getItem('isAdmin');
     if (!isAdmin) {
       navigate('/admin');
     }
-    loadPosts();
+    fetchPosts();
   }, [navigate]);
 
-  const loadPosts = () => {
-    setPosts(getPosts());
+  const fetchPosts = async () => {
+    const loaded = await loadPosts();
+    setPosts(loaded);
   };
 
   const handleCreateNew = () => {
@@ -27,9 +30,9 @@ export const AdminDashboard: React.FC = () => {
       id: Date.now().toString(),
       title: '',
       slug: '',
-      content: '',
+      content: '', // Will be HTML
       excerpt: '',
-      coverImage: '', // Empty by default
+      coverImage: '',
       category: 'General',
       author: 'Admin',
       date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
@@ -45,30 +48,60 @@ export const AdminDashboard: React.FC = () => {
     setView('editor');
   };
 
-  const handleEdit = (post: BlogPost) => {
-    setEditingPost(post);
+  const handleEdit = async (post: BlogPost) => {
+    // We need to fetch the content separately now since the manifest only has metadata
+    const content = await loadPostContent(post.slug);
+    setEditingPost({
+      ...post,
+      content: content || '', // If content load fails, start empty
+    });
     setView('editor');
   };
 
-  const handleDelete = (id: string) => {
-    if (window.confirm('Are you sure you want to delete this post?')) {
-      deletePost(id);
-      loadPosts();
+  const handleDelete = async (id: string) => {
+    if (window.confirm('Note: Deleting posts via the dashboard currently only removes them from the registry list. You may need to manually delete the file from GitHub to save space. Continue?')) {
+      const updatedPosts = posts.filter(p => p.id !== id);
+      setPosts(updatedPosts);
+      // We would need a separate delete API, but for now we just update the manifest locally
+      // To persist delete, the user would need to "Publish" a different change, or we add delete logic to API.
+      alert('Removed from local list. Please create a dummy update or contact developer to fully purge file.');
     }
   };
 
-  const handleSave = () => {
-    if (editingPost) {
-      // Auto-generate slug if empty
-      const postToSave = {
-        ...editingPost,
-        slug: editingPost.slug || editingPost.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '')
-      };
-      
-      savePost(postToSave);
-      loadPosts();
+  const handlePublish = async () => {
+    if (!editingPost) return;
+    
+    // Auto-generate slug
+    const slug = editingPost.slug || editingPost.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+    const finalPost = { ...editingPost, slug };
+
+    setIsPublishing(true);
+
+    // 1. Update the manifest list (Metadata only)
+    // We exclude 'content' from the manifest to keep it small
+    const { content, ...metaDataOnly } = finalPost;
+    
+    // Check if exists in current list
+    const existingIndex = posts.findIndex(p => p.id === finalPost.id);
+    let newManifest = [...posts];
+    if (existingIndex >= 0) {
+      newManifest[existingIndex] = metaDataOnly as BlogPost;
+    } else {
+      newManifest.unshift(metaDataOnly as BlogPost);
+    }
+
+    try {
+      // 2. Send to API
+      // The content is sent as the 'html' payload
+      await publishChanges(newManifest, content, slug);
+      alert('Published successfully! Vercel is now rebuilding the site. Changes will appear in a few minutes.');
+      setPosts(newManifest);
       setView('list');
-      alert('Post saved successfully!');
+    } catch (e) {
+      console.error(e);
+      alert('Failed to publish. Check console.');
+    } finally {
+      setIsPublishing(false);
     }
   };
 
@@ -132,7 +165,7 @@ export const AdminDashboard: React.FC = () => {
                     {post.date}
                   </div>
                   <div className="flex justify-between items-center pt-4 border-t border-gray-700">
-                    <button onClick={() => handleDelete(post.id)} className="text-red-400 hover:text-red-300 text-sm">Delete</button>
+                    <button onClick={() => handleDelete(post.id)} className="text-red-400 hover:text-red-300 text-sm">Remove</button>
                     <button onClick={() => handleEdit(post)} className="text-primary hover:text-white text-sm font-semibold">Edit</button>
                   </div>
                 </div>
@@ -154,7 +187,6 @@ export const AdminDashboard: React.FC = () => {
   // EDITOR VIEW
   return (
     <div className="min-h-screen bg-gray-900 text-white flex flex-col">
-      {/* Editor Header */}
       <div className="bg-gray-800 border-b border-gray-700 px-6 py-3 flex justify-between items-center sticky top-0 z-50">
         <div className="flex items-center gap-4">
           <button onClick={() => setView('list')} className="text-gray-400 hover:text-white flex items-center gap-1">
@@ -164,20 +196,17 @@ export const AdminDashboard: React.FC = () => {
           <span className="text-sm font-mono text-gray-500">{editingPost?.status}</span>
         </div>
         <button 
-          onClick={handleSave}
-          className="bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded-lg font-semibold shadow-lg shadow-green-900/20 transition-all"
+          onClick={handlePublish}
+          disabled={isPublishing}
+          className={`bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded-lg font-semibold shadow-lg shadow-green-900/20 transition-all ${isPublishing ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
-          Save Changes
+          {isPublishing ? 'Publishing...' : 'Publish to Site'}
         </button>
       </div>
 
       <div className="flex-grow flex flex-col lg:flex-row h-[calc(100vh-64px)] overflow-hidden">
-        
-        {/* Main Content Area */}
         <div className="flex-grow overflow-y-auto p-6 lg:p-12">
           <div className="max-w-3xl mx-auto space-y-8">
-            
-            {/* Title Input */}
             <input 
               type="text"
               value={editingPost?.title}
@@ -186,7 +215,6 @@ export const AdminDashboard: React.FC = () => {
               className="w-full bg-transparent text-4xl lg:text-5xl font-display font-bold text-white placeholder-gray-600 border-none focus:ring-0 px-0"
             />
 
-            {/* Template Selector */}
             <div className="flex gap-4 p-4 bg-gray-800/50 rounded-xl border border-gray-700">
               <span className="text-sm font-bold text-gray-400 uppercase tracking-wider py-1">Layout Style:</span>
               {(['classic', 'modern', 'immersive'] as BlogTemplate[]).map(temp => (
@@ -200,22 +228,19 @@ export const AdminDashboard: React.FC = () => {
               ))}
             </div>
 
-            {/* Content Area */}
             <div className="relative">
+              <label className="text-xs text-gray-500 mb-2 block">Content (HTML supported)</label>
               <textarea 
                 value={editingPost?.content}
                 onChange={(e) => setEditingPost({ ...editingPost!, content: e.target.value })}
-                placeholder="Start writing your masterpiece... (Markdown supported)"
-                className="w-full h-[60vh] bg-transparent text-lg text-gray-300 leading-relaxed border-none focus:ring-0 px-0 resize-none font-sans"
+                placeholder="<p>Start writing...</p>"
+                className="w-full h-[60vh] bg-transparent text-lg text-gray-300 leading-relaxed border-none focus:ring-0 px-0 resize-none font-mono"
               />
             </div>
           </div>
         </div>
 
-        {/* Sidebar Settings */}
         <div className="w-full lg:w-96 bg-gray-800 border-l border-gray-700 overflow-y-auto p-6 space-y-8">
-          
-          {/* Publish Settings */}
           <div className="space-y-4">
             <h3 className="font-bold text-sm text-gray-400 uppercase tracking-wider">Publishing</h3>
             <div className="flex flex-col gap-2">
@@ -239,7 +264,7 @@ export const AdminDashboard: React.FC = () => {
               />
             </div>
             <div className="flex flex-col gap-2">
-              <label className="text-xs text-gray-500">Excerpt (Short Summary)</label>
+              <label className="text-xs text-gray-500">Excerpt</label>
               <textarea 
                 rows={3}
                 value={editingPost?.excerpt}
@@ -249,7 +274,6 @@ export const AdminDashboard: React.FC = () => {
             </div>
           </div>
 
-          {/* Featured Image */}
           <div className="space-y-4">
             <h3 className="font-bold text-sm text-gray-400 uppercase tracking-wider">Featured Image</h3>
             <div className="border-2 border-dashed border-gray-600 rounded-lg p-4 text-center hover:bg-gray-700/50 transition-colors relative">
@@ -266,7 +290,7 @@ export const AdminDashboard: React.FC = () => {
               ) : (
                 <div className="py-8">
                   <span className="material-icons-outlined text-3xl text-gray-500">add_photo_alternate</span>
-                  <p className="text-xs text-gray-500 mt-2">Click to upload cover image</p>
+                  <p className="text-xs text-gray-500 mt-2">Click to upload</p>
                 </div>
               )}
               <input 
@@ -278,49 +302,18 @@ export const AdminDashboard: React.FC = () => {
             </div>
           </div>
 
-          {/* SEO Yoast Style */}
           <div className="space-y-4 pt-4 border-t border-gray-700">
-            <h3 className="font-bold text-sm text-gray-400 uppercase tracking-wider flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-green-500"></span> SEO Optimization
-            </h3>
-            
-            {/* Google Snippet Preview */}
-            <div className="bg-white p-4 rounded-lg shadow-sm">
-              <div className="text-xs text-gray-500 mb-1">Google Preview (Mobile)</div>
-              <div className="flex flex-col gap-1 font-sans">
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 bg-gray-200 rounded-full"></div>
-                  <div className="flex flex-col">
-                    <span className="text-[10px] text-gray-800">tecontractorsinutah.com</span>
-                    <span className="text-[10px] text-gray-500">https://tecontractorsinutah.com › blog</span>
-                  </div>
-                </div>
-                <div className="text-[#1a0dab] text-sm font-medium hover:underline cursor-pointer truncate">
-                  {editingPost?.seo.metaTitle || editingPost?.title || 'Post Title'}
-                </div>
-                <div className="text-xs text-[#4d5156] line-clamp-2">
-                  {editingPost?.seo.metaDescription || editingPost?.excerpt || 'Please enter a meta description to see a preview of how your page will appear in search results.'}
-                </div>
-              </div>
-            </div>
-
+            <h3 className="font-bold text-sm text-gray-400 uppercase tracking-wider">SEO Config</h3>
             <div className="space-y-3">
               <div>
-                <label className="text-xs text-gray-500">SEO Title</label>
+                <label className="text-xs text-gray-500">Meta Title</label>
                 <input 
                   type="text" 
                   value={editingPost?.seo.metaTitle}
                   onChange={(e) => setEditingPost({ ...editingPost!, seo: { ...editingPost!.seo, metaTitle: e.target.value } })}
                   className="w-full bg-gray-900 border border-gray-700 rounded p-2 text-sm text-white" 
                 />
-                <div className="w-full bg-gray-700 h-1 mt-1 rounded-full overflow-hidden">
-                  <div 
-                    className={`h-full ${editingPost?.seo.metaTitle.length! > 60 ? 'bg-red-500' : 'bg-green-500'}`} 
-                    style={{ width: `${Math.min((editingPost?.seo.metaTitle.length || 0) / 0.6, 100)}%` }}
-                  ></div>
-                </div>
               </div>
-
               <div>
                 <label className="text-xs text-gray-500">Meta Description</label>
                 <textarea 
@@ -329,27 +322,9 @@ export const AdminDashboard: React.FC = () => {
                   onChange={(e) => setEditingPost({ ...editingPost!, seo: { ...editingPost!.seo, metaDescription: e.target.value } })}
                   className="w-full bg-gray-900 border border-gray-700 rounded p-2 text-sm text-white" 
                 />
-                 <div className="w-full bg-gray-700 h-1 mt-1 rounded-full overflow-hidden">
-                  <div 
-                    className={`h-full ${editingPost?.seo.metaDescription.length! > 160 ? 'bg-red-500' : 'bg-green-500'}`} 
-                    style={{ width: `${Math.min((editingPost?.seo.metaDescription.length || 0) / 1.6, 100)}%` }}
-                  ></div>
-                </div>
-              </div>
-
-              <div>
-                <label className="text-xs text-gray-500">Focus Keywords</label>
-                <input 
-                  type="text" 
-                  value={editingPost?.seo.keywords}
-                  onChange={(e) => setEditingPost({ ...editingPost!, seo: { ...editingPost!.seo, keywords: e.target.value } })}
-                  placeholder="concrete, heated driveway, etc."
-                  className="w-full bg-gray-900 border border-gray-700 rounded p-2 text-sm text-white" 
-                />
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
