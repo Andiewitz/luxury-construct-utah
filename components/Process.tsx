@@ -44,15 +44,16 @@ export const Process: React.FC = () => {
       const rect = containerRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
       
-      // LOGIC: Start drawing when the section is 75% down the viewport.
-      const startTrigger = windowHeight * 0.75;
+      // LOGIC: Start drawing when the section is 50% (Middle) of the viewport.
+      // Previously 0.75 (Bottom), which made the line stay too low ("at the floor").
+      const startTrigger = windowHeight * 0.5;
       
       // Calculate pixels passed relative to that trigger
       const pixelsPassed = startTrigger - rect.top;
       
-      // DENOMINATOR: We want the line to finish roughly when the last item is in view.
-      // We subtract half the window height from the total rect height to accelerate the drawing slightly
-      // so it finishes before the section leaves the screen.
+      // DENOMINATOR: 
+      // We want the line to finish roughly when the bottom of the content enters the viewport.
+      // Math: (H - 0.5WH) approx.
       const trackHeight = rect.height - (windowHeight * 0.5);
       
       const progress = pixelsPassed / trackHeight;
@@ -69,7 +70,7 @@ export const Process: React.FC = () => {
   }, []);
 
   return (
-    <section className="py-24 bg-background-light dark:bg-background-dark relative overflow-hidden" ref={containerRef}>
+    <section className="py-24 pb-48 bg-background-light dark:bg-background-dark relative overflow-hidden" ref={containerRef}>
       <div className="max-w-5xl mx-auto px-4 sm:px-6 relative">
         
         {/* Header */}
@@ -83,13 +84,13 @@ export const Process: React.FC = () => {
         </div>
 
         {/* The Central Line Container */}
-        <div className="absolute left-4 sm:left-1/2 top-[220px] bottom-10 w-1 -ml-0.5 sm:ml-0 h-[calc(100%-240px)] z-0">
+        <div className="absolute left-4 sm:left-1/2 top-[220px] bottom-0 w-1 -ml-0.5 sm:ml-0 h-[calc(100%-220px)] z-0">
           {/* Background Track (Faint) */}
           <div className="absolute inset-0 bg-brand-gray-light dark:bg-gray-800 w-px sm:w-0.5 mx-auto opacity-30"></div>
           
           {/* The Active "Black" Line (Draws on Scroll) */}
           <div 
-            className="absolute top-0 left-0 right-0 bg-gray-900 dark:bg-primary w-0.5 sm:w-1 mx-auto transition-all duration-75 ease-linear shadow-[0_0_10px_rgba(0,0,0,0.2)]"
+            className="absolute top-0 left-0 right-0 bg-gray-900 dark:bg-primary w-0.5 sm:w-1 mx-auto shadow-[0_0_10px_rgba(0,0,0,0.2)] transition-all duration-500 ease-out"
             style={{ height: `${scrollProgress * 100}%` }}
           >
              {/* Glowing Head of the line */}
@@ -98,7 +99,7 @@ export const Process: React.FC = () => {
         </div>
 
         {/* The Nodes - Increased vertical spacing for a longer section */}
-        <ol className="space-y-16 sm:space-y-32 relative z-10 pb-12" itemScope itemType="https://schema.org/HowToSection">
+        <ol className="space-y-16 sm:space-y-32 relative z-10" itemScope itemType="https://schema.org/HowTo">
           {STEPS.map((step, index) => {
             const isEven = index % 2 === 0;
             // Calculate if the line has passed this node
@@ -110,7 +111,7 @@ export const Process: React.FC = () => {
                 className={`flex flex-col sm:flex-row items-center sm:items-start ${
                   isEven ? 'sm:flex-row' : 'sm:flex-row-reverse'
                 }`}
-                itemProp="itemListElement" 
+                itemProp="step" 
                 itemScope 
                 itemType="https://schema.org/HowToStep"
               >
@@ -171,14 +172,6 @@ export const Process: React.FC = () => {
             );
           })}
         </ol>
-        
-        {/* Call to Action at the bottom of the line */}
-        <div className={`text-center transition-opacity duration-700 delay-300 ${scrollProgress > 0.95 ? 'opacity-100' : 'opacity-0'}`}>
-           <p className="text-gray-400 text-sm mb-4">Let's build something great together.</p>
-           <a href="#" className="inline-block px-8 py-3 bg-primary text-white rounded-full font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-             Start Your Project
-           </a>
-        </div>
       </div>
     </section>
   );

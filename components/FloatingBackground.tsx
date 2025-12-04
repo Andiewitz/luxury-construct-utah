@@ -50,7 +50,11 @@ const IsometricCubeSVG: React.FC<{ size: number; theme: keyof typeof THEMES }> =
   );
 };
 
-export const FloatingBackground: React.FC = () => {
+interface FloatingBackgroundProps {
+  hideGradient?: boolean;
+}
+
+export const FloatingBackground: React.FC<FloatingBackgroundProps> = ({ hideGradient = false }) => {
   const mouseRef = useRef({ x: 0, y: 0 });
   const targetRef = useRef({ x: 0, y: 0 });
   const cubeRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -115,7 +119,7 @@ export const FloatingBackground: React.FC = () => {
         <div
           key={cube.id}
           ref={(el) => { cubeRefs.current[index] = el; }}
-          className="absolute will-change-transform"
+          className={`absolute will-change-transform cube-${cube.id}`}
           // This outer div handles the JS Parallax Translation
           style={{
             top: cube.top,
@@ -142,13 +146,31 @@ export const FloatingBackground: React.FC = () => {
         </div>
       ))}
       
-      {/* Gradient to blend with next section */}
-      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-background-light to-transparent dark:from-background-dark z-10" />
+      {/* Gradient to blend with next section - conditionally rendered */}
+      {!hideGradient && (
+        <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-background-light to-transparent dark:from-background-dark z-10" />
+      )}
 
       <style>{`
         @keyframes float {
           0% { transform: translateY(0px); }
           100% { transform: translateY(-25px); }
+        }
+
+        /* Mobile Adjustments to prevent text overlap */
+        @media (max-width: 768px) {
+          /* Hide center cube completely */
+          .cube-10 { display: none !important; }
+          
+          /* Push side cubes further out so they frame the text instead of covering it */
+          .cube-3 { right: -15% !important; }
+          .cube-4 { left: -15% !important; }
+          
+          /* Move bottom center cube to the side to avoid CTA button */
+          .cube-8 { left: 85% !important; bottom: 20% !important; }
+          
+          /* Adjust bottom right cube */
+          .cube-6 { right: -10% !important; }
         }
       `}</style>
     </div>

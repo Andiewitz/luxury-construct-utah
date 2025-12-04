@@ -14,21 +14,20 @@ export const Hero: React.FC = () => {
         </p>
         
         <h1 className="font-display font-bold text-5xl sm:text-6xl md:text-7xl max-w-4xl mx-auto leading-tight text-gray-900 dark:text-gray-100 opacity-0 animate-[fadeIn_1s_ease-out_0.3s_forwards] translate-y-4">
-          Professional Concrete & <br className="hidden md:block"/> 
           <span className="relative inline-block text-primary">
-             Landscaping
+             Luxury
              {/* Decorative underline */}
              <svg className="absolute w-full h-3 -bottom-2 left-0 text-primary/30" viewBox="0 0 100 10" preserveAspectRatio="none">
                 <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="2" fill="none" />
              </svg>
-          </span> 
-          Services in Salt Lake City
+          </span> Construct & <br className="hidden md:block"/> 
+          Landscaping Services in Salt Lake City
         </h1>
 
         <div className="mt-12 opacity-0 animate-[fadeIn_1s_ease-out_0.6s_forwards] translate-y-4">
           <a
             href="#"
-            className="group inline-flex items-center justify-center bg-primary text-white font-semibold font-sans px-10 py-4 rounded-full shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-2 border-transparent hover:bg-[#4a5d3f]"
+            className="group inline-flex items-center justify-center bg-blue-600 text-white font-semibold font-sans px-10 py-4 rounded-full shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-2 border-transparent hover:bg-blue-700"
           >
             Get a Free Quote
             <span className="material-icons-outlined text-xl ml-2 group-hover:translate-x-1 transition-transform duration-300">

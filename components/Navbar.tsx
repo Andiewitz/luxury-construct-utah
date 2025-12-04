@@ -29,8 +29,8 @@ export const Navbar: React.FC = () => {
       relative flex items-center transition-colors duration-300
       text-[11px] sm:text-xs md:text-sm font-medium uppercase tracking-wide md:normal-case md:tracking-normal
       hover:text-brand-gray-light
-      ${isActive ? 'text-primary' : ''}
-      after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:bg-primary after:transition-all after:duration-300 
+      ${isActive ? 'text-[#d4e5bc]' : ''}
+      after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:bg-[#d4e5bc] after:transition-all after:duration-300 
       ${isActive ? 'after:w-full' : 'after:w-0 hover:after:w-full'}
     `;
   };
@@ -52,33 +52,11 @@ export const Navbar: React.FC = () => {
               </a>
             </li>
             
-            {/* SERVICES */}
-            <li className="relative group">
+            {/* SERVICES - Simplified, removed dropdown */}
+            <li>
               <a href="#services" className={getLinkClasses('services')}>
                 Services
-                {/* Chevron only shows on tablet/desktop to save space on mobile */}
-                <span className="hidden sm:block material-icons-outlined text-base ml-1 transition-transform duration-300 group-hover:rotate-180">
-                  expand_more
-                </span>
               </a>
-              
-              {/* Dropdown Menu (Desktop Hover) */}
-              <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top -translate-y-2 group-hover:translate-y-0 hidden md:block">
-                <div className="bg-background-light dark:bg-slate-900 text-text-light dark:text-text-dark rounded-lg shadow-xl py-2 overflow-hidden border border-gray-100 dark:border-gray-800">
-                  <a href="#services" className="block px-4 py-3 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-primary transition-colors">
-                    Residential Concrete
-                  </a>
-                  <a href="#services" className="block px-4 py-3 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-primary transition-colors">
-                    Commercial Concrete
-                  </a>
-                  <a href="#services" className="block px-4 py-3 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-primary transition-colors">
-                    Landscaping Design
-                  </a>
-                  <a href="#services" className="block px-4 py-3 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-primary transition-colors">
-                    Hardscaping
-                  </a>
-                </div>
-              </div>
             </li>
 
             {/* ABOUT */}

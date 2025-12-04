@@ -67,8 +67,37 @@ const SERVICES = [
 ];
 
 export const Services: React.FC = () => {
+  // Construct structured data (JSON-LD) for SEO
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": SERVICES.map((service, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "item": {
+        "@type": "Offer", // Specifically requested 'Offer' schema
+        "name": service.title,
+        "description": service.description,
+        "image": service.image,
+        "areaServed": {
+          "@type": "City",
+          "name": "Salt Lake City",
+          "address": {
+             "@type": "PostalAddress",
+             "addressRegion": "UT"
+          }
+        }
+      }
+    }))
+  };
+
   return (
     <section id="services" className="py-16 sm:py-24 bg-background-light dark:bg-background-dark relative z-10 select-none">
+      {/* Inject SEO Structured Data */}
+      <script type="application/ld+json">
+        {JSON.stringify(structuredData)}
+      </script>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12 lg:mb-16">
           <h2 className="font-display text-4xl sm:text-5xl font-bold text-text-light-primary dark:text-text-dark-primary">

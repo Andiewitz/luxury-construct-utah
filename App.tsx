@@ -3,7 +3,7 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { Services } from './components/Services';
 import { Process } from './components/Process';
-import { Testimonials } from './components/Testimonials';
+import { WhyChooseUs } from './components/WhyChooseUs';
 import { FloatingBackground } from './components/FloatingBackground';
 
 const App: React.FC = () => {
@@ -28,8 +28,8 @@ const App: React.FC = () => {
       {/* Process Section - How we work */}
       <Process />
 
-      {/* Testimonials Section - Reviews */}
-      <Testimonials />
+      {/* Why Choose Us Section - The Closer */}
+      <WhyChooseUs />
     </div>
   );
 };
