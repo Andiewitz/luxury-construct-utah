@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Reveal } from './Reveal';
 
 // Helper to optimize Google Hosted images
 const getOptimizedImageUrl = (url: string, width: number = 800) => {
@@ -100,12 +101,16 @@ export const Services: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12 lg:mb-16">
-          <h2 className="font-display text-4xl sm:text-5xl font-bold text-text-light-primary dark:text-text-dark-primary">
-            Premier Construction & Landscaping Services
-          </h2>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-text-light-secondary dark:text-text-dark-secondary">
-            High-quality residential and commercial solutions in Salt Lake City, UT. From foundational strength to aesthetic beauty.
-          </p>
+          <Reveal>
+            <h2 className="font-display text-4xl sm:text-5xl font-bold text-text-light-primary dark:text-text-dark-primary">
+              Premier Construction & Landscaping Services
+            </h2>
+          </Reveal>
+          <Reveal delay={200}>
+            <p className="mt-4 max-w-2xl mx-auto text-lg text-text-light-secondary dark:text-text-dark-secondary">
+              High-quality residential and commercial solutions in Salt Lake City, UT. From foundational strength to aesthetic beauty.
+            </p>
+          </Reveal>
         </div>
         
         {/* Collage Grid Layout - Auto Rows allow dynamic height, md for tablet+ collage */}
@@ -123,9 +128,11 @@ export const Services: React.FC = () => {
               : "(max-width: 768px) 100vw, 33vw";
 
             return (
-              <div 
+              <Reveal 
                 key={service.id} 
                 className={`service-card-wrapper relative ${service.gridArea} min-h-[24rem] md:min-h-[20rem]`}
+                delay={index * 100} // Staggered delay
+                fullWidth={true}
               >
                 <div className="relative group overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform-gpu bg-gray-900 h-full w-full">
                   
@@ -185,7 +192,7 @@ export const Services: React.FC = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </Reveal>
             );
           })}
         </div>

@@ -1,18 +1,13 @@
+
 import { Octokit } from '@octokit/rest';
+import { Buffer } from 'buffer';
 
-declare var Buffer: any;
-
-// Helper to handle Buffer in Vercel/Node environment
-const getBuffer = (str: string) => {
-  if (typeof Buffer !== 'undefined') {
-    return Buffer.from(str).toString('base64');
-  } else {
-    // Fallback for browser-like environments (unlikely in Vercel API but safe)
-    return btoa(unescape(encodeURIComponent(str)));
-  }
+// Helper to handle Base64 encoding in Node.js
+const toBase64 = (str: string) => {
+  return Buffer.from(str).toString('base64');
 };
 
-export const publishToGitHub = async (
+const publishToGitHub = async (
   token: string,
   owner: string,
   repo: string,
@@ -33,7 +28,8 @@ export const publishToGitHub = async (
         repo,
         path: manifestPath,
       });
-      if (!Array.isArray(data)) {
+      // @ts-ignore - Octokit types can be tricky with union returns
+      if (data && data.sha) {
         sha = data.sha;
       }
     } catch (e) {
@@ -45,7 +41,7 @@ export const publishToGitHub = async (
       repo,
       path: manifestPath,
       message: `Update blog manifest for ${slug}`,
-      content: getBuffer(JSON.stringify(postsManifest, null, 2)),
+      content: toBase64(JSON.stringify(postsManifest, null, 2)),
       sha,
     });
   } catch (e) {
@@ -62,7 +58,8 @@ export const publishToGitHub = async (
         repo,
         path: postPath,
       });
-      if (!Array.isArray(data)) {
+      // @ts-ignore
+      if (data && data.sha) {
         postSha = data.sha;
       }
     } catch (e) {
@@ -74,7 +71,7 @@ export const publishToGitHub = async (
       repo,
       path: postPath,
       message: `Publish post content: ${slug}`,
-      content: getBuffer(newPostHtml),
+      content: toBase64(newPostHtml),
       sha: postSha,
     });
   } catch (e) {
@@ -85,18 +82,28 @@ export const publishToGitHub = async (
   return { success: true };
 };
 
-// Vercel Serverless Handler
-export default async function handler(request: Request) {
-  if (request.method !== 'POST') {
-    return new Response('Method not allowed', { status: 405 });
+// Standard Vercel Serverless Function Signature (Node.js)
+export default async function handler(req: any, res: any) {
+  // Set CORS headers just in case
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
-    const { manifest, html, slug, password } = await request.json();
+    // Vercel automatically parses JSON body for us
+    const { manifest, html, slug, password } = req.body;
 
     // Secure check
     if (password !== 'iE04103') {
-       return new Response('Unauthorized', { status: 401 });
+       return res.status(401).json({ error: 'Unauthorized: Incorrect password' });
     }
 
     const token = process.env.GITHUB_TOKEN;
@@ -104,18 +111,15 @@ export default async function handler(request: Request) {
     const repo = process.env.GITHUB_REPO;
 
     if (!token || !owner || !repo) {
-      return new Response('Server misconfiguration: Missing GitHub env vars', { status: 500 });
+      console.error('Missing Env Vars:', { hasToken: !!token, owner, repo });
+      return res.status(500).json({ error: 'Server misconfiguration: Missing GitHub env vars' });
     }
 
     await publishToGitHub(token, owner, repo, manifest, html, slug);
 
-    return new Response(JSON.stringify({ success: true }), {
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return res.status(200).json({ success: true });
   } catch (error: any) {
-    return new Response(JSON.stringify({ error: error.message }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    console.error('API Error:', error);
+    return res.status(500).json({ error: error.message || 'Internal Server Error' });
   }
 }

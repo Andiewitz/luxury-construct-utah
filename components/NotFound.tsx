@@ -1,10 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FloatingBackground } from './FloatingBackground';
+import { SEO } from './SEO';
 
 export const NotFound: React.FC = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-950 relative overflow-hidden text-center px-4">
+      <SEO 
+        title="404 - Page Not Found | Luxury Construction"
+        description="The page you are looking for does not exist. Return to Luxury Construction home."
+      />
+
       {/* Reuse the subtle luxury background */}
       <FloatingBackground hideGradient={true} />
       

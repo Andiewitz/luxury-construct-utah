@@ -73,8 +73,17 @@ export const Navbar: React.FC = () => {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-nav-dark text-white backdrop-blur-md transition-all duration-300 shadow-lg border-b border-white/5">
-      <div className="container mx-auto px-4 py-4">
-        <nav className="flex justify-center items-center">
+      <div className="container mx-auto px-4 py-4 relative flex justify-center items-center">
+        
+        {/* BRANDING: Visible on Desktop Only, positioned absolutely to keep nav centered */}
+        <a 
+          href="/" 
+          className="hidden md:block absolute left-4 font-display font-bold text-xl lg:text-2xl text-amber-400 tracking-wider hover:text-amber-300 transition-colors"
+        >
+          LUXURY
+        </a>
+
+        <nav>
           {/* 
             Mobile: Tighter spacing (space-x-3) and smaller text to fit extra Blog item
             Desktop: Wider spacing (space-x-8) 

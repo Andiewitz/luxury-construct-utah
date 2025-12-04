@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Reveal } from './Reveal';
 
 const STEPS = [
   {
@@ -75,12 +76,16 @@ export const Process: React.FC = () => {
         
         {/* Header */}
         <div className="text-center mb-24 relative z-10">
-          <h2 className="font-display text-4xl sm:text-5xl font-bold text-text-light-primary dark:text-text-dark-primary mb-4">
-            Our Process: From Consultation to Completion
-          </h2>
-          <p className="text-text-light-secondary dark:text-text-dark-secondary max-w-3xl mx-auto leading-relaxed">
-            We believe that clear communication and meticulous planning are key to successful concrete projects. Our streamlined process ensures that every stage of your project is handled with care and professionalism.
-          </p>
+          <Reveal>
+            <h2 className="font-display text-4xl sm:text-5xl font-bold text-text-light-primary dark:text-text-dark-primary mb-4">
+              Our Process: From Consultation to Completion
+            </h2>
+          </Reveal>
+          <Reveal delay={200}>
+            <p className="text-text-light-secondary dark:text-text-dark-secondary max-w-3xl mx-auto leading-relaxed">
+              We believe that clear communication and meticulous planning are key to successful concrete projects. Our streamlined process ensures that every stage of your project is handled with care and professionalism.
+            </p>
+          </Reveal>
         </div>
 
         {/* The Central Line Container */}

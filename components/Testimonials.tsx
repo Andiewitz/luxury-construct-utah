@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Reveal } from './Reveal';
 
 const REVIEWS = [
   {
@@ -101,102 +102,108 @@ export const Testimonials: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="text-center mb-16">
-          <h2 className="font-display text-4xl sm:text-5xl font-bold text-text-light-primary dark:text-text-dark-primary mb-4">
-            See What People are Saying
-          </h2>
-          <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
+          <Reveal>
+            <h2 className="font-display text-4xl sm:text-5xl font-bold text-text-light-primary dark:text-text-dark-primary mb-4">
+              See What People are Saying
+            </h2>
+          </Reveal>
+          <Reveal delay={200}>
+            <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
+          </Reveal>
         </div>
 
         {/* Carousel Container */}
-        <div 
-          className="relative overflow-hidden w-full"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-        >
+        <Reveal delay={300} fullWidth={true}>
           <div 
-            className="flex transition-transform duration-700 ease-in-out"
-            style={{ 
-              transform: `translateX(-${currentIndex * 100}%)`,
-            }}
+            className="relative overflow-hidden w-full"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
           >
-            {REVIEWS.map((review) => {
-              const isExpanded = expandedReviews.has(review.id);
-              
-              return (
-                <div 
-                  key={review.id} 
-                  className="w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-3"
-                >
-                  <div className={`bg-white dark:bg-card-dark p-6 rounded-xl shadow-md border border-gray-100 dark:border-gray-800 flex flex-col relative transition-all duration-300 ${isExpanded ? 'h-auto z-10 scale-[1.02] shadow-xl' : 'h-full'}`}>
-                    
-                    {/* Google G Logo */}
-                    <div className="absolute top-6 right-6">
-                      <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M23.49 12.275C23.49 11.485 23.415 10.73 23.3 10H12V14.51H18.47C18.18 15.99 17.25 17.21 15.81 18.11V21.09H19.66C21.93 19 23.49 15.89 23.49 12.275Z" fill="#4285F4"/>
-                        <path d="M12 24C15.24 24 17.965 22.935 19.965 21.09L16.11 18.11C15.015 18.855 13.635 19.28 12 19.28C8.835 19.28 6.165 17.14 5.205 14.24H1.245V17.31C3.21 21.22 7.275 24 12 24Z" fill="#34A853"/>
-                        <path d="M5.205 14.24C4.95 13.49 4.8 12.69 4.8 11.85C4.8 11.01 4.95 10.21 5.205 9.46V6.39H1.245C0.435 8.025 0 9.885 0 11.85C0 13.815 0.435 15.675 1.245 17.31L5.205 14.24Z" fill="#FBBC05"/>
-                        <path d="M12 4.41C13.77 4.41 15.345 5.035 16.59 6.205L19.74 3.055C17.965 1.39 15.24 0 12 0C7.275 0 3.21 2.78 1.245 6.69L5.205 9.76C6.165 6.86 8.835 4.41 12 4.41Z" fill="#EA4335"/>
-                      </svg>
-                    </div>
-
-                    {/* Profile Header */}
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className={`w-10 h-10 rounded-full ${review.color} flex items-center justify-center text-white font-bold font-sans text-lg`}>
-                        {review.avatar}
+            <div 
+              className="flex transition-transform duration-700 ease-in-out"
+              style={{ 
+                transform: `translateX(-${currentIndex * 100}%)`,
+              }}
+            >
+              {REVIEWS.map((review) => {
+                const isExpanded = expandedReviews.has(review.id);
+                
+                return (
+                  <div 
+                    key={review.id} 
+                    className="w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-3"
+                  >
+                    <div className={`bg-white dark:bg-card-dark p-6 rounded-xl shadow-md border border-gray-100 dark:border-gray-800 flex flex-col relative transition-all duration-300 ${isExpanded ? 'h-auto z-10 scale-[1.02] shadow-xl' : 'h-full'}`}>
+                      
+                      {/* Google G Logo */}
+                      <div className="absolute top-6 right-6">
+                        <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M23.49 12.275C23.49 11.485 23.415 10.73 23.3 10H12V14.51H18.47C18.18 15.99 17.25 17.21 15.81 18.11V21.09H19.66C21.93 19 23.49 15.89 23.49 12.275Z" fill="#4285F4"/>
+                          <path d="M12 24C15.24 24 17.965 22.935 19.965 21.09L16.11 18.11C15.015 18.855 13.635 19.28 12 19.28C8.835 19.28 6.165 17.14 5.205 14.24H1.245V17.31C3.21 21.22 7.275 24 12 24Z" fill="#34A853"/>
+                          <path d="M5.205 14.24C4.95 13.49 4.8 12.69 4.8 11.85C4.8 11.01 4.95 10.21 5.205 9.46V6.39H1.245C0.435 8.025 0 9.885 0 11.85C0 13.815 0.435 15.675 1.245 17.31L5.205 14.24Z" fill="#FBBC05"/>
+                          <path d="M12 4.41C13.77 4.41 15.345 5.035 16.59 6.205L19.74 3.055C17.965 1.39 15.24 0 12 0C7.275 0 3.21 2.78 1.245 6.69L5.205 9.76C6.165 6.86 8.835 4.41 12 4.41Z" fill="#EA4335"/>
+                        </svg>
                       </div>
-                      <div>
-                        <div className="font-bold text-text-light-primary dark:text-white text-sm">
-                          {review.name}
+
+                      {/* Profile Header */}
+                      <div className="flex items-center gap-4 mb-4">
+                        <div className={`w-10 h-10 rounded-full ${review.color} flex items-center justify-center text-white font-bold font-sans text-lg`}>
+                          {review.avatar}
                         </div>
-                        <div className="text-xs text-gray-500">
-                          {review.date}
+                        <div>
+                          <div className="font-bold text-text-light-primary dark:text-white text-sm">
+                            {review.name}
+                          </div>
+                          <div className="text-xs text-gray-500">
+                            {review.date}
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    {/* Stars */}
-                    <div className="flex text-amber-400 text-sm mb-3">
-                      {[...Array(review.rating)].map((_, i) => (
-                         <span key={i} className="material-icons-outlined text-base">star</span>
-                      ))}
-                      <span className="material-icons-outlined text-base text-blue-500 ml-1">verified</span>
-                    </div>
+                      {/* Stars */}
+                      <div className="flex text-amber-400 text-sm mb-3">
+                        {[...Array(review.rating)].map((_, i) => (
+                          <span key={i} className="material-icons-outlined text-base">star</span>
+                        ))}
+                        <span className="material-icons-outlined text-base text-blue-500 ml-1">verified</span>
+                      </div>
 
-                    {/* Text */}
-                    <div className="flex-grow">
-                      <p className={`text-text-light-secondary dark:text-gray-300 text-sm leading-relaxed ${isExpanded ? '' : 'line-clamp-4'}`}>
-                        {review.text}
-                      </p>
-                    </div>
-                    
-                    <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700">
-                       <button 
-                         onClick={() => toggleExpand(review.id)}
-                         className="text-xs font-medium text-gray-400 hover:text-primary transition-colors focus:outline-none"
-                       >
-                         {isExpanded ? 'Show less' : 'Read more'}
-                       </button>
-                    </div>
+                      {/* Text */}
+                      <div className="flex-grow">
+                        <p className={`text-text-light-secondary dark:text-gray-300 text-sm leading-relaxed ${isExpanded ? '' : 'line-clamp-4'}`}>
+                          {review.text}
+                        </p>
+                      </div>
+                      
+                      <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700">
+                        <button 
+                          onClick={() => toggleExpand(review.id)}
+                          className="text-xs font-medium text-gray-400 hover:text-primary transition-colors focus:outline-none"
+                        >
+                          {isExpanded ? 'Show less' : 'Read more'}
+                        </button>
+                      </div>
 
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
 
-          {/* Mobile Navigation Dots */}
-          <div className="flex justify-center mt-8 gap-2">
-            {REVIEWS.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setCurrentIndex(idx)}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  idx === currentIndex ? 'bg-primary w-6' : 'bg-gray-300 dark:bg-gray-700'
-                }`}
-              />
-            ))}
+            {/* Mobile Navigation Dots */}
+            <div className="flex justify-center mt-8 gap-2">
+              {REVIEWS.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentIndex(idx)}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    idx === currentIndex ? 'bg-primary w-6' : 'bg-gray-300 dark:bg-gray-700'
+                  }`}
+                />
+              ))}
+            </div>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

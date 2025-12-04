@@ -8,6 +8,7 @@ import { WhyChooseUs } from './WhyChooseUs';
 import { Testimonials } from './Testimonials';
 import { Contact } from './Contact';
 import { FloatingBackground } from './FloatingBackground';
+import { SEO } from './SEO';
 
 export const Home: React.FC = () => {
   const location = useLocation();
@@ -23,8 +24,6 @@ export const Home: React.FC = () => {
           element.scrollIntoView({ behavior: 'smooth' });
         }, 100);
       }
-      // Clear state to prevent scrolling on refresh? 
-      // React Router handles state per transition, so it shouldn't persist aggressively.
     }
   }, [location]);
 
@@ -42,6 +41,13 @@ export const Home: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col relative bg-background-light dark:bg-background-dark font-sans text-text-light dark:text-text-dark">
+      <SEO 
+        title="Luxury Construction - Heated Driveways, Stamped Concrete & Foundations Salt Lake City"
+        description="Premier Concrete Contractors in Salt Lake City. Specializing in Heated Driveway Systems, Stamped Concrete, Walkout Basements, and Luxury Landscaping. Call (385) 227-4522."
+        keywords="concrete contractors Salt Lake City, concrete driveway installation Utah, heated driveway systems Salt Lake City, concrete foundation contractors Utah, stamped concrete Salt Lake City"
+        canonical="https://tecontractorsinutah.com/"
+      />
+      
       <script type="application/ld+json">
         {JSON.stringify(breadcrumbSchema)}
       </script>

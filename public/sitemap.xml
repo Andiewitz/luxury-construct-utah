@@ -1,9 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://tecontractorsinutah.com/</loc>
-    <lastmod>2024-05-20</lastmod>
+    <lastmod>2024-05-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://lh3.googleusercontent.com/aida-public/AB6AXuBUMJ-3aBtXJIaKM40xnHm2C5sZBYRPnYRDNezyvT2tC9nM9OpM4pajoPZVwiT6AI-Nlp7gls7gnsE6fWoJRdvB2HqsJ0Blz4xEePqr5Otq6ZgMyT3F6SG6xct7EEr7sJqZ2CVMQG6Ik7elTSMUtsSunwJ3IWl-5lMn9mTKBwqeILTbGiwxQpuVdbaTyi9rX-yQAuHgtsRQV3slPVCFWPFe61u3J819zOOcSffWvlVD8BC8jWTT1yHnGSkSR5NndpPe-xIIEAd-ITe0</image:loc>
+      <image:title>Heated Concrete Driveway Installation Salt Lake City</image:title>
+      <image:caption>Expert heated driveway systems for winter safety in Utah.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://lh3.googleusercontent.com/aida-public/AB6AXuD6Bj3mjFwjsfzonvVMIn2tMPmVjXw5cY4KCT3LGeF-YtuT6OxARGSlooJV8k1pHzgur1JyaGXSyIEM9uepm6Yx6z2UfXSlOT2P-6uFJjZWKATICDXDH7MY2ewskhsFbCjY24wl7WLv3bH5UUk5wCC3F0iXdZctq5_RsVrVamCyvEThI7IeSeMvY2nJcz9AasY1ctLiPQRsUCHKZ_gOPJwmeCss1ADl206c6ptFqGMRMESuhCjtQlwnLYZD-iHBiGdlKclDWTyFxKAW</image:loc>
+      <image:title>Custom Pickleball and Basketball Court Construction Utah</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://lh3.googleusercontent.com/aida-public/AB6AXuAwPn7FsoHhMrs8cHZvP8dlNvQ6fXr-O9Q1qP6aheUCV50rC5MvnQwLPdNPFINRyDdTHohtKRWzNl8EO_JSFfm02EQ8mLco_ibrhhiwLFiX6MThljMcJh8cCgD2PbX4VudIW67xCIEySNoqqrgOnTQv5NLILxyhcY2mP9rDqFpML2MTfJRnfdsW7Jp9t7GRqBG-_JUH4hM9GlhCePlNKCuQTWHBzVEG6NPhZgoniGg8NtqCdZh3w_mqhzzUKH9sX06CIhXMvIFH8TMF</image:loc>
+      <image:title>Concrete Walkout Basements and Foundations Salt Lake City</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://tecontractorsinutah.com/blog</loc>
+    <lastmod>2024-05-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
 </urlset>

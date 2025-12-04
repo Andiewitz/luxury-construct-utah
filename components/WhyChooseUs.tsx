@@ -1,4 +1,5 @@
 import React from 'react';
+import { Reveal } from './Reveal';
 
 const BENEFITS = [
   {
@@ -66,95 +67,108 @@ export const WhyChooseUs: React.FC = () => {
         
         {/* Header */}
         <div className="text-center mb-20">
-          <h2 className="font-display text-5xl md:text-6xl font-bold text-white mb-6">
-            Why Choose <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-green-300">
-              Luxury Construction?
-            </span>
-          </h2>
-          <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
+          <Reveal>
+            <h2 className="font-display text-5xl md:text-6xl font-bold text-white mb-6">
+              Why Choose <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-green-300">
+                Luxury Construction?
+              </span>
+            </h2>
+          </Reveal>
+          <Reveal delay={200}>
+            <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
+          </Reveal>
         </div>
 
         {/* Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-24">
           {BENEFITS.map((item, idx) => (
-            <div 
+            <Reveal 
               key={item.id} 
+              delay={idx * 100}
               className={`
-                group relative p-8 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-amber-400/30 transition-all duration-300
                 ${idx === 3 ? 'lg:col-span-1' : ''} 
                 ${idx === 4 ? 'lg:col-span-2' : ''}
               `}
+              fullWidth={true}
             >
-              <div className="absolute top-4 right-4 text-white/5 font-display text-6xl font-bold group-hover:text-amber-500/10 transition-colors">
-                {item.id}
-              </div>
-              
-              {/* Updated to Gold/Amber Colors */}
-              <div className="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 mb-6 group-hover:scale-110 transition-transform duration-300 shadow-[0_0_15px_rgba(251,191,36,0.2)]">
-                {item.icon}
-              </div>
+              <div 
+                className={`
+                  group relative p-8 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-amber-400/30 transition-all duration-300 h-full
+                `}
+              >
+                <div className="absolute top-4 right-4 text-white/5 font-display text-6xl font-bold group-hover:text-amber-500/10 transition-colors">
+                  {item.id}
+                </div>
+                
+                {/* Updated to Gold/Amber Colors */}
+                <div className="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 mb-6 group-hover:scale-110 transition-transform duration-300 shadow-[0_0_15px_rgba(251,191,36,0.2)]">
+                  {item.icon}
+                </div>
 
-              <h3 className="font-display text-2xl font-bold text-white mb-3 group-hover:text-amber-400 transition-colors">
-                {item.title}
-              </h3>
-              <p className="text-gray-400 leading-relaxed text-sm">
-                {item.description}
-              </p>
-            </div>
+                <h3 className="font-display text-2xl font-bold text-white mb-3 group-hover:text-amber-400 transition-colors">
+                  {item.title}
+                </h3>
+                <p className="text-gray-400 leading-relaxed text-sm">
+                  {item.description}
+                </p>
+              </div>
+            </Reveal>
           ))}
         </div>
 
         {/* Sustainability Banner (Glassmorphism) */}
-        <div className="relative rounded-3xl overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-blue-900/20 backdrop-blur-xl border border-white/10"></div>
-          <div className="relative z-10 p-8 md:p-12 flex flex-col lg:flex-row items-center gap-12">
-            
-            {/* Icon Side - Kept Green for Eco theme */}
-            <div className="flex-shrink-0">
-               <div className="w-24 h-24 rounded-full bg-green-500/20 flex items-center justify-center border border-green-500/30 shadow-[0_0_30px_rgba(34,197,94,0.2)]">
-                  <svg className="w-12 h-12 text-green-400" fill="currentColor" viewBox="0 0 24 24">
-                     <path d="M21 12C21 16.97 16.97 21 12 21C7.03 21 3 16.97 3 12C3 7.03 7.03 3 12 3C16.97 3 21 7.03 21 12ZM12 5C8.13 5 5 8.13 5 12C5 15.87 8.13 19 12 19C15.87 19 19 15.87 19 12C19 8.13 15.87 5 12 5Z" opacity="0.3"/>
-                     <path d="M16.5 12.5C16.5 12.5 16 9 12 8C12 8 13.5 10 13 12C13 12 11 10.5 9 11.5C9 11.5 10 12.5 10 14C10 14 8 13.5 7.5 15.5C7.5 15.5 9.5 15 11 16C11 16 10.5 18 13 18C13 18 12.5 15.5 14.5 14.5C14.5 14.5 16.5 15 17 13.5C17 13.5 16.5 13.5 16.5 12.5Z"/>
-                  </svg>
-               </div>
-            </div>
-
-            {/* Text Side */}
-            <div className="flex-grow text-center lg:text-left">
-              <h3 className="font-display text-3xl font-bold text-white mb-4">
-                Our Commitment to Sustainability
-              </h3>
+        <Reveal delay={300}>
+          <div className="relative rounded-3xl overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-blue-900/20 backdrop-blur-xl border border-white/10"></div>
+            <div className="relative z-10 p-8 md:p-12 flex flex-col lg:flex-row items-center gap-12">
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6 text-left">
-                <div>
-                  <h4 className="text-green-400 font-bold mb-1 flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-green-400"></span> Eco-Friendly Materials
-                  </h4>
-                  <p className="text-gray-300 text-sm">Environmentally responsible concrete mixes reducing carbon emissions.</p>
+              {/* Icon Side - Kept Green for Eco theme */}
+              <div className="flex-shrink-0">
+                <div className="w-24 h-24 rounded-full bg-green-500/20 flex items-center justify-center border border-green-500/30 shadow-[0_0_30px_rgba(34,197,94,0.2)]">
+                    <svg className="w-12 h-12 text-green-400" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M21 12C21 16.97 16.97 21 12 21C7.03 21 3 16.97 3 12C3 7.03 7.03 3 12 3C16.97 3 21 7.03 21 12ZM12 5C8.13 5 5 8.13 5 12C5 15.87 8.13 19 12 19C15.87 19 19 15.87 19 12C19 8.13 15.87 5 12 5Z" opacity="0.3"/>
+                      <path d="M16.5 12.5C16.5 12.5 16 9 12 8C12 8 13.5 10 13 12C13 12 11 10.5 9 11.5C9 11.5 10 12.5 10 14C10 14 8 13.5 7.5 15.5C7.5 15.5 9.5 15 11 16C11 16 10.5 18 13 18C13 18 12.5 15.5 14.5 14.5C14.5 14.5 16.5 15 17 13.5C17 13.5 16.5 13.5 16.5 12.5Z"/>
+                    </svg>
                 </div>
-                <div>
-                  <h4 className="text-green-400 font-bold mb-1 flex items-center gap-2">
-                     <span className="w-2 h-2 rounded-full bg-green-400"></span> Waste Reduction
-                  </h4>
-                  <p className="text-gray-300 text-sm">Efficient management practices to minimize construction waste.</p>
-                </div>
-                <div>
-                  <h4 className="text-green-400 font-bold mb-1 flex items-center gap-2">
-                     <span className="w-2 h-2 rounded-full bg-green-400"></span> Energy-Efficient
-                  </h4>
-                  <p className="text-gray-300 text-sm">Processes designed to reduce overall energy consumption.</p>
-                </div>
-                <div>
-                  <h4 className="text-green-400 font-bold mb-1 flex items-center gap-2">
-                     <span className="w-2 h-2 rounded-full bg-green-400"></span> Long-Lasting
-                  </h4>
-                  <p className="text-gray-300 text-sm">Durability reduces the need for frequent repairs and materials.</p>
+              </div>
+
+              {/* Text Side */}
+              <div className="flex-grow text-center lg:text-left">
+                <h3 className="font-display text-3xl font-bold text-white mb-4">
+                  Our Commitment to Sustainability
+                </h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6 text-left">
+                  <div>
+                    <h4 className="text-green-400 font-bold mb-1 flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-green-400"></span> Eco-Friendly Materials
+                    </h4>
+                    <p className="text-gray-300 text-sm">Environmentally responsible concrete mixes reducing carbon emissions.</p>
+                  </div>
+                  <div>
+                    <h4 className="text-green-400 font-bold mb-1 flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-green-400"></span> Waste Reduction
+                    </h4>
+                    <p className="text-gray-300 text-sm">Efficient management practices to minimize construction waste.</p>
+                  </div>
+                  <div>
+                    <h4 className="text-green-400 font-bold mb-1 flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-green-400"></span> Energy-Efficient
+                    </h4>
+                    <p className="text-gray-300 text-sm">Processes designed to reduce overall energy consumption.</p>
+                  </div>
+                  <div>
+                    <h4 className="text-green-400 font-bold mb-1 flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-green-400"></span> Long-Lasting
+                    </h4>
+                    <p className="text-gray-300 text-sm">Durability reduces the need for frequent repairs and materials.</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </Reveal>
 
       </div>
     </section>
