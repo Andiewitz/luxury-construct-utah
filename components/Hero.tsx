@@ -26,12 +26,8 @@ export const Hero: React.FC = () => {
         </p>
         
         <h1 className="font-display font-bold text-5xl sm:text-6xl md:text-7xl max-w-4xl mx-auto leading-tight text-gray-900 dark:text-gray-100 opacity-0 animate-[fadeIn_1s_ease-out_0.3s_forwards] translate-y-4">
-          <span className="relative inline-block text-primary">
+          <span className="text-primary">
              Luxury
-             {/* Decorative underline */}
-             <svg className="absolute w-full h-3 -bottom-2 left-0 text-primary/30" viewBox="0 0 100 10" preserveAspectRatio="none">
-                <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="2" fill="none" />
-             </svg>
           </span> Construction & <br className="hidden md:block"/> 
           Landscaping Services in Salt Lake City
         </h1>
