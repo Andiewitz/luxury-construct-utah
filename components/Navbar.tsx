@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const Navbar: React.FC = () => {
   const [activeSection, setActiveSection] = useState('home');
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
+    // Only set up intersection observer if we are on the home page
+    if (location.pathname !== '/') {
+      setActiveSection(''); // Clear active section on other pages
+      return;
+    }
+
     // Threshold 0.2 means trigger when 20% of the section is visible
     const observer = new IntersectionObserver(
       (entries) => {
@@ -20,24 +29,42 @@ export const Navbar: React.FC = () => {
     sections.forEach((section) => observer.observe(section));
 
     return () => sections.forEach((section) => observer.unobserve(section));
-  }, []);
+  }, [location.pathname]);
 
-  // Handle smooth scrolling and prevent HashRouter 404s
-  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+  // Handle navigation logic
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+
+    // Special case for Blog page navigation
+    if (id === 'blog') {
+      navigate('/blog');
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    // If we are not on the home page, navigate to home with a scroll target
+    if (location.pathname !== '/') {
+      navigate('/', { state: { scrollTo: id } });
+    } else {
+      // We are already on home, just scroll
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
   // Helper class logic for links
   const getLinkClasses = (sectionId: string) => {
-    const isActive = activeSection === sectionId;
+    // If we are on the blog page, only highlight the blog link
+    const isActive = location.pathname === '/blog' 
+      ? sectionId === 'blog'
+      : activeSection === sectionId;
+
     return `
       relative flex items-center transition-colors duration-300
-      text-[11px] sm:text-xs md:text-sm font-medium uppercase tracking-wide md:normal-case md:tracking-normal
-      hover:text-brand-gray-light cursor-pointer
+      text-[10px] sm:text-xs md:text-sm font-medium uppercase tracking-wide md:normal-case md:tracking-normal
+      hover:text-brand-gray-light cursor-pointer whitespace-nowrap
       ${isActive ? 'text-[#d4e5bc]' : ''}
       after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:bg-[#d4e5bc] after:transition-all after:duration-300 
       ${isActive ? 'after:w-full' : 'after:w-0 hover:after:w-full'}
@@ -49,16 +76,16 @@ export const Navbar: React.FC = () => {
       <div className="container mx-auto px-4 py-4">
         <nav className="flex justify-center items-center">
           {/* 
-            Mobile: Tighter spacing (space-x-4) and smaller text (handled in getLinkClasses)
-            Desktop: Wider spacing (space-x-10) and standard text size
+            Mobile: Tighter spacing (space-x-3) and smaller text to fit extra Blog item
+            Desktop: Wider spacing (space-x-8) 
           */}
-          <ul className="flex items-center space-x-4 sm:space-x-6 md:space-x-10">
+          <ul className="flex items-center space-x-3 sm:space-x-5 md:space-x-8">
             
             {/* HOME */}
             <li>
               <a 
                 href="#home" 
-                onClick={(e) => scrollToSection(e, 'home')}
+                onClick={(e) => handleNavClick(e, 'home')}
                 className={getLinkClasses('home')}
               >
                 Home
@@ -69,7 +96,7 @@ export const Navbar: React.FC = () => {
             <li>
               <a 
                 href="#services" 
-                onClick={(e) => scrollToSection(e, 'services')}
+                onClick={(e) => handleNavClick(e, 'services')}
                 className={getLinkClasses('services')}
               >
                 Services
@@ -80,21 +107,32 @@ export const Navbar: React.FC = () => {
             <li>
               <a 
                 href="#about" 
-                onClick={(e) => scrollToSection(e, 'about')}
+                onClick={(e) => handleNavClick(e, 'about')}
                 className={getLinkClasses('about')}
               >
                 About
               </a>
             </li>
 
-            {/* TESTIMONIALS (Was Portfolio) */}
+            {/* BLOG - NEW ITEM */}
+            <li>
+              <a 
+                href="/blog" 
+                onClick={(e) => handleNavClick(e, 'blog')}
+                className={getLinkClasses('blog')}
+              >
+                Blog
+              </a>
+            </li>
+
+            {/* TESTIMONIALS */}
             <li>
               <a 
                 href="#testimonials" 
-                onClick={(e) => scrollToSection(e, 'testimonials')}
+                onClick={(e) => handleNavClick(e, 'testimonials')}
                 className={getLinkClasses('testimonials')}
               >
-                Testimonials
+                Reviews
               </a>
             </li>
 
@@ -102,7 +140,7 @@ export const Navbar: React.FC = () => {
             <li>
               <a 
                 href="#contact" 
-                onClick={(e) => scrollToSection(e, 'contact')}
+                onClick={(e) => handleNavClick(e, 'contact')}
                 className={getLinkClasses('contact')}
               >
                 Contact

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Navbar } from './Navbar';
 import { Hero } from './Hero';
 import { Services } from './Services';
@@ -9,6 +10,24 @@ import { Contact } from './Contact';
 import { FloatingBackground } from './FloatingBackground';
 
 export const Home: React.FC = () => {
+  const location = useLocation();
+
+  // Handle scroll request from other pages
+  useEffect(() => {
+    if (location.state && location.state.scrollTo) {
+      const targetId = location.state.scrollTo;
+      const element = document.getElementById(targetId);
+      if (element) {
+        // Slight delay to ensure DOM is ready and transition is smooth
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+      // Clear state to prevent scrolling on refresh? 
+      // React Router handles state per transition, so it shouldn't persist aggressively.
+    }
+  }, [location]);
+
   // Breadcrumb Schema for SEO Structure
   const breadcrumbSchema = {
     "@context": "https://schema.org",
