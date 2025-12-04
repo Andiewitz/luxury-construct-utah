@@ -22,13 +22,22 @@ export const Navbar: React.FC = () => {
     return () => sections.forEach((section) => observer.unobserve(section));
   }, []);
 
+  // Handle smooth scrolling and prevent HashRouter 404s
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   // Helper class logic for links
   const getLinkClasses = (sectionId: string) => {
     const isActive = activeSection === sectionId;
     return `
       relative flex items-center transition-colors duration-300
       text-[11px] sm:text-xs md:text-sm font-medium uppercase tracking-wide md:normal-case md:tracking-normal
-      hover:text-brand-gray-light
+      hover:text-brand-gray-light cursor-pointer
       ${isActive ? 'text-[#d4e5bc]' : ''}
       after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:bg-[#d4e5bc] after:transition-all after:duration-300 
       ${isActive ? 'after:w-full' : 'after:w-0 hover:after:w-full'}
@@ -47,35 +56,55 @@ export const Navbar: React.FC = () => {
             
             {/* HOME */}
             <li>
-              <a href="#home" className={getLinkClasses('home')}>
+              <a 
+                href="#home" 
+                onClick={(e) => scrollToSection(e, 'home')}
+                className={getLinkClasses('home')}
+              >
                 Home
               </a>
             </li>
             
             {/* SERVICES */}
             <li>
-              <a href="#services" className={getLinkClasses('services')}>
+              <a 
+                href="#services" 
+                onClick={(e) => scrollToSection(e, 'services')}
+                className={getLinkClasses('services')}
+              >
                 Services
               </a>
             </li>
 
             {/* ABOUT */}
             <li>
-              <a href="#about" className={getLinkClasses('about')}>
+              <a 
+                href="#about" 
+                onClick={(e) => scrollToSection(e, 'about')}
+                className={getLinkClasses('about')}
+              >
                 About
               </a>
             </li>
 
             {/* TESTIMONIALS (Was Portfolio) */}
             <li>
-              <a href="#testimonials" className={getLinkClasses('testimonials')}>
+              <a 
+                href="#testimonials" 
+                onClick={(e) => scrollToSection(e, 'testimonials')}
+                className={getLinkClasses('testimonials')}
+              >
                 Testimonials
               </a>
             </li>
 
             {/* CONTACT */}
             <li>
-              <a href="#contact" className={getLinkClasses('contact')}>
+              <a 
+                href="#contact" 
+                onClick={(e) => scrollToSection(e, 'contact')}
+                className={getLinkClasses('contact')}
+              >
                 Contact
               </a>
             </li>

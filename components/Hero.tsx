@@ -1,6 +1,14 @@
 import React from 'react';
 
 export const Hero: React.FC = () => {
+  const scrollToContact = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const contactSection = document.getElementById('contact');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <main id="home" className="relative flex-grow flex items-center justify-center text-center z-10 pointer-events-none">
       {/* 
@@ -32,6 +40,7 @@ export const Hero: React.FC = () => {
         <div className="mt-8 md:mt-12 opacity-0 animate-[fadeIn_1s_ease-out_0.6s_forwards] translate-y-4">
           <a
             href="#contact"
+            onClick={scrollToContact}
             className="group inline-flex items-center justify-center bg-blue-600 text-white font-semibold font-sans px-10 py-4 rounded-full shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-2 border-transparent hover:bg-blue-700"
           >
             Get a Free Quote
