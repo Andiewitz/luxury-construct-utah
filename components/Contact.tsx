@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 export const Contact: React.FC = () => {
@@ -6,8 +5,8 @@ export const Contact: React.FC = () => {
   const schemaData = {
     "@context": "https://schema.org",
     "@type": "GeneralContractor",
-    "name": "Luxury Construct",
-    "alternateName": "Luxury Construct",
+    "name": "Luxury Construction",
+    "alternateName": "Luxury Construction",
     "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuBUMJ-3aBtXJIaKM40xnHm2C5sZBYRPnYRDNezyvT2tC9nM9OpM4pajoPZVwiT6AI-Nlp7gls7gnsE6fWoJRdvB2HqsJ0Blz4xEePqr5Otq6ZgMyT3F6SG6xct7EEr7sJqZ2CVMQG6Ik7elTSMUtsSunwJ3IWl-5lMn9mTKBwqeILTbGiwxQpuVdbaTyi9rX-yQAuHgtsRQV3slPVCFWPFe61u3J819zOOcSffWvlVD8BC8jWTT1yHnGSkSR5NndpPe-xIIEAd-ITe0",
     "telephone": "(385) 227-4522",
     "url": "https://tecontractorsinutah.com",
@@ -127,7 +126,7 @@ export const Contact: React.FC = () => {
               </button>
 
               <p className="text-xs text-center text-gray-500 mt-4">
-                By submitting this form, you agree to receive SMS text messages from Luxury Construct. Carrier rates may apply.
+                By submitting this form, you agree to receive SMS text messages from Luxury Construction. Carrier rates may apply.
               </p>
             </form>
           </div>
@@ -192,7 +191,7 @@ export const Contact: React.FC = () => {
         {/* Copyright Footer */}
         <div className="mt-20 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
           <div className="mb-4 md:mb-0">
-            <p>© {new Date().getFullYear()} Luxury Construct.</p>
+            <p>© {new Date().getFullYear()} Luxury Construction.</p>
             <p className="text-xs mt-1 text-gray-600">All rights reserved.</p>
           </div>
           

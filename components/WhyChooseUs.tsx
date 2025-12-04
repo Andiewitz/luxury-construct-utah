@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 const BENEFITS = [
@@ -56,7 +55,7 @@ const BENEFITS = [
 
 export const WhyChooseUs: React.FC = () => {
   return (
-    <section className="relative bg-gray-950 py-24 px-4 sm:px-6 lg:px-8 overflow-hidden select-none">
+    <section id="about" className="relative bg-gray-950 py-24 px-4 sm:px-6 lg:px-8 overflow-hidden select-none">
       {/* Background Ambience */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] bg-primary/10 rounded-full blur-[120px] opacity-30"></div>
@@ -70,7 +69,7 @@ export const WhyChooseUs: React.FC = () => {
           <h2 className="font-display text-5xl md:text-6xl font-bold text-white mb-6">
             Why Choose <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-green-300">
-              Luxury Construct?
+              Luxury Construction?
             </span>
           </h2>
           <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>

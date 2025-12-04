@@ -17,7 +17,7 @@ const REVIEWS = [
     avatar: "C",
     color: "bg-blue-600",
     rating: 5,
-    text: "Luxury Construct is fantastic. I really appreciate the team matching my other bids and starting on time for the project. The concrete looks great and we're excited for more parking now. They came back and also did my parking strip today! It looks great. I appreciate their fast and quality work. We will definitely be using them again."
+    text: "Luxury Construction is fantastic. I really appreciate the team matching my other bids and starting on time for the project. The concrete looks great and we're excited for more parking now. They came back and also did my parking strip today! It looks great. I appreciate their fast and quality work. We will definitely be using them again."
   },
   {
     id: 3,
@@ -44,7 +44,7 @@ const REVIEWS = [
     avatar: "B",
     color: "bg-orange-500",
     rating: 5,
-    text: "We have recently moved here to Utah and our new backyard was not very functional for our family since the entire yard was just dirt and it was un-level. We really wanted a patio for dining and a safe place for our kids to play and for the yard to be leveled and a retaining wall put in. After searching a while for a contractor we happened upon Luxury Construct since they were doing some work a few houses down from us. We were really impressed with their work there so we decided to use them as our contractor for our project, and we are so glad we did! The team was amazing to work with and really understood our vision. They kept communication open the entire project and were very detail oriented which I appreciated. The concrete work they did for us is absolutely beautiful, and the kids are having a blast playing on the turf and being able to run barefooted through the yard. Working with this company was so seamless and we highly recommend them to anyone who is in need of a yard upgrade!"
+    text: "We have recently moved here to Utah and our new backyard was not very functional for our family since the entire yard was just dirt and it was un-level. We really wanted a patio for dining and a safe place for our kids to play and for the yard to be leveled and a retaining wall put in. After searching a while for a contractor we happened upon Luxury Construction since they were doing some work a few houses down from us. We were really impressed with their work there so we decided to use them as our contractor for our project, and we are so glad we did! The team was amazing to work with and really understood our vision. They kept communication open the entire project and were very detail oriented which I appreciated. The concrete work they did for us is absolutely beautiful, and the kids are having a blast playing on the turf and being able to run barefooted through the yard. Working with this company was so seamless and we highly recommend them to anyone who is in need of a yard upgrade!"
   },
   {
     id: 6,
@@ -53,7 +53,7 @@ const REVIEWS = [
     avatar: "L",
     color: "bg-indigo-600",
     rating: 5,
-    text: "I recently used Luxury Construct for a new driveway installation and I couldn't be happier with the results. The team was professional, punctual and very easy to work with. They walked me through the process and gave me great suggestions on how to improve the design. The work was completed in a timely manner and the quality of the work is outstanding."
+    text: "I recently used Luxury Construction for a new driveway installation and I couldn't be happier with the results. The team was professional, punctual and very easy to work with. They walked me through the process and gave me great suggestions on how to improve the design. The work was completed in a timely manner and the quality of the work is outstanding."
   },
   {
     id: 7,

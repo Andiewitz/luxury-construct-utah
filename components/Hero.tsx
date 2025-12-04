@@ -24,14 +24,14 @@ export const Hero: React.FC = () => {
              <svg className="absolute w-full h-3 -bottom-2 left-0 text-primary/30" viewBox="0 0 100 10" preserveAspectRatio="none">
                 <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="2" fill="none" />
              </svg>
-          </span> Construct & <br className="hidden md:block"/> 
+          </span> Construction & <br className="hidden md:block"/> 
           Landscaping Services in Salt Lake City
         </h1>
 
         {/* Reduced margin-top on mobile to keep things tight */}
         <div className="mt-8 md:mt-12 opacity-0 animate-[fadeIn_1s_ease-out_0.6s_forwards] translate-y-4">
           <a
-            href="#"
+            href="#contact"
             className="group inline-flex items-center justify-center bg-blue-600 text-white font-semibold font-sans px-10 py-4 rounded-full shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-2 border-transparent hover:bg-blue-700"
           >
             Get a Free Quote

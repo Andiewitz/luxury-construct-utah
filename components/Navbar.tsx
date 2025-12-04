@@ -16,7 +16,7 @@ export const Navbar: React.FC = () => {
       { threshold: 0.2, rootMargin: '-80px 0px 0px 0px' }
     );
 
-    const sections = document.querySelectorAll('main[id], section[id]');
+    const sections = document.querySelectorAll('main[id], section[id], footer[id]');
     sections.forEach((section) => observer.observe(section));
 
     return () => sections.forEach((section) => observer.unobserve(section));
