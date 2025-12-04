@@ -1,7 +1,6 @@
 import React from 'react';
 
 // Helper to optimize Google Hosted images
-// This drastically reduces payload size by requesting a resized version
 const getOptimizedImageUrl = (url: string, width: number = 800) => {
   if (url.includes('googleusercontent.com')) {
     return `${url}=w${width}-rw-q75`; // Width + WebP + Quality 75
@@ -12,45 +11,45 @@ const getOptimizedImageUrl = (url: string, width: number = 800) => {
 const SERVICES = [
   {
     id: 1,
-    title: "Concrete Driveways & Systems",
-    description: "Our company offers expert concrete services in Salt Lake City, UT. We specialize in durable driveways and advanced heated driveway systems ensuring safety during Utah winters.",
-    tags: ["Concrete Driveways", "Heated Driveway Systems", "Sidewalks & Walkways"],
+    title: "Concrete Driveways & Heated Systems",
+    description: "Expert concrete driveway installation in Utah. We specialize in advanced heated driveway systems Salt Lake City homeowners trust for winter safety.",
+    tags: ["heated driveway systems Salt Lake City", "heated concrete driveway installation", "concrete driveway installation Utah"],
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBUMJ-3aBtXJIaKM40xnHm2C5sZBYRPnYRDNezyvT2tC9nM9OpM4pajoPZVwiT6AI-Nlp7gls7gnsE6fWoJRdvB2HqsJ0Blz4xEePqr5Otq6ZgMyT3F6SG6xct7EEr7sJqZ2CVMQG6Ik7elTSMUtsSunwJ3IWl-5lMn9mTKBwqeILTbGiwxQpuVdbaTyi9rX-yQAuHgtsRQV3slPVCFWPFe61u3J819zOOcSffWvlVD8BC8jWTT1yHnGSkSR5NndpPe-xIIEAd-ITe0",
     gridArea: "col-span-1 md:col-span-2 md:row-span-1",
-    alt: "Modern home with heated concrete driveway system in Salt Lake City"
+    alt: "Heated concrete driveway installation in Salt Lake City during winter"
   },
   {
     id: 2,
     title: "Sports Court Construction",
-    description: "We specialize in sports court construction in Salt Lake City, UT. We offer high-quality courts for backyards, gyms, and commercial spaces.",
-    tags: ["Pickleball Courts", "Basketball Courts", "Multi-purpose Courts", "Sports Courts"],
+    description: "Premier pickleball court builders in Utah. We construct custom basketball and multi-purpose courts for residential and commercial properties.",
+    tags: ["pickleball court builders Utah", "custom basketball court construction", "outdoor basketball court builders"],
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuD6Bj3mjFwjsfzonvVMIn2tMPmVjXw5cY4KCT3LGeF-YtuT6OxARGSlooJV8k1pHzgur1JyaGXSyIEM9uepm6Yx6z2UfXSlOT2P-6uFJjZWKATICDXDH7MY2ewskhsFbCjY24wl7WLv3bH5UUk5wCC3F0iXdZctq5_RsVrVamCyvEThI7IeSeMvY2nJcz9AasY1ctLiPQRsUCHKZ_gOPJwmeCss1ADl206c6ptFqGMRMESuhCjtQlwnLYZD-iHBiGdlKclDWTyFxKAW",
     gridArea: "col-span-1 md:col-span-1 md:row-span-2",
-    alt: "Custom residential pickleball court construction in Utah"
+    alt: "Custom residential pickleball and basketball court construction in Utah"
   },
   {
     id: 3,
     title: "Foundations & Basements",
-    description: "Structural integrity starts here. We build concrete foundations, walkout basements, and retaining walls designed for long-term durability in Utah's specific soil conditions.",
-    tags: ["Concrete Foundations", "Walkout Basements", "Retaining Walls"],
+    description: "Reliable concrete foundation contractors in Utah. Specializing in concrete walkout basements and structural retaining walls for South Salt Lake homes.",
+    tags: ["concrete foundation contractors Utah", "concrete walkout basement Salt Lake City", "retaining wall installation South Salt Lake"],
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAwPn7FsoHhMrs8cHZvP8dlNvQ6fXr-O9Q1qP6aheUCV50rC5MvnQwLPdNPFINRyDdTHohtKRWzNl8EO_JSFfm02EQ8mLco_ibrhhiwLFiX6MThljMcJh8cCgD2PbX4VudIW67xCIEySNoqqrgOnTQv5NLILxyhcY2mP9rDqFpML2MTfJRnfdsW7Jp9t7GRqBG-_JUH4hM9GlhCePlNKCuQTWHBzVEG6NPhZgoniGg8NtqCdZh3w_mqhzzUKH9sX06CIhXMvIFH8TMF",
     gridArea: "col-span-1 md:col-span-1 md:row-span-1",
-    alt: "Concrete foundation pouring for new home construction in Salt Lake City"
+    alt: "Concrete foundation pouring and walkout basement construction in Salt Lake City"
   },
   {
     id: 4,
     title: "Decorative & Stamped Concrete",
-    description: "Elevate your property value with custom stamped concrete. We create aesthetic patios and walkways that combine beauty with the strength of concrete.",
-    tags: ["Decorative Concrete", "Stamped Concrete", "Concrete Patios"],
+    description: "Enhance your property with stamped concrete Salt Lake City. Our decorative concrete contractors create stunning patios and walkways.",
+    tags: ["stamped concrete Salt Lake City", "stamped concrete patio contractors Utah", "decorative concrete contractors 84109"],
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDNBQpWEM8SiO_N_x5RMaTI8H6VtdIy_c2o7VvgoEehQcDJyPkkXTcO8CSiMyOEJBftC0LVTXOHwiebYoOCTbU0bw5VpGQIKhvS2MZL0Mg1SyfLv-MvVjML1oLr64grrdl5W43qFU0Vn4zvgrbLAY1U_r1fYHdi7NmPgI8kYSHyY2S0PpizZlXkl6EkzxFrH97btnMEiLHuBUlsq4Umg61HjSKcBoj1z2icl1ybXjJ59pJEodHZYqfIfcqeuAy6Fwdo4VqlbUPZWlYa",
     gridArea: "col-span-1 md:col-span-1 md:row-span-2",
-    alt: "Decorative stamped concrete patio design with outdoor seating"
+    alt: "Decorative stamped concrete patio design with outdoor seating in Utah"
   },
   {
     id: 5,
     title: "Garage & Home Construction",
-    description: "We provide reliable garage construction and home improvement services throughout Salt Lake City, UT, designed to upgrade, repair, and modernize your property.",
-    tags: ["Garage Building", "Home Remodeling", "Roofing & Siding", "Renovations"],
+    description: "Complete garage construction and home remodeling in Salt Lake City. We provide expert roofing, siding, and renovation services.",
+    tags: ["garage construction Utah", "home remodeling Salt Lake City", "residential concrete contractors Utah"],
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuA9-TRAXjoVKjkOF_UODv72AFJ7TteaKHJhVMzEalijBYHXBD1iKnZ__iKidGF4n_T59TG_oq2vBrUuQlpJoG-T-iANbmtK2wqXsj7fpvtukeVgFuOvzyhRedmTyKyGs7yGchMGPaLzU_sE5B79nYUb5hWJlQGyug0hIuQz0WMInMtgc_Kk8_rk2Ue29lvrlpf2hnHFOJxhhUNdNDsioQ7YBUtdPzRtNr68-yMblWFtcH0jQfy0rGKL2y8vD8J3divHPnat5t0dhf6f",
     gridArea: "col-span-1 md:col-span-1 md:row-span-1",
     alt: "Custom garage building and modern home renovation in Utah"
@@ -58,11 +57,11 @@ const SERVICES = [
   {
     id: 6,
     title: "Landscape Design",
-    description: "We create custom landscape designs for properties in Salt Lake City, UT, enhancing curb appeal through expert outdoor planning and hardscaping.",
-    tags: ["Landscape Design", "Outdoor Planning", "Hardscaping"],
+    description: "Professional landscape design services in Utah. We integrate concrete walkways and hardscaping to create functional, beautiful outdoor spaces.",
+    tags: ["landscape design services Utah", "concrete walkways Salt Lake City", "commercial concrete services Salt Lake City"],
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDcIYMHmoLLfaaunG7DPPXJox0FQ-HnYa2VABWO_o0d6fRb-72smi82z1HC0jg_Kx-kYRivnjP3g5No8Uvb1NjM82cRSONNIXbtTMgtuw7D60KK2GXmj9y9iCzbYQ6xF4VyCWZ-Tzq6plGt2H6egx33Y7IvbK6NlY5tPXgGecHCFhrakboxdRoftcjbci6EArklrufhZITL02yvIGMSaRtxW59M9ISNzftw7KWsb1xupu3x-50dGER0XmdCszc2wOT_LEce5xRI00PU",
     gridArea: "col-span-1 md:col-span-1 md:row-span-1",
-    alt: "Professional landscape design and walkway in Salt Lake City garden"
+    alt: "Professional landscape design and concrete walkway in Salt Lake City garden"
   }
 ];
 

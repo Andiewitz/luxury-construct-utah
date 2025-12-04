@@ -52,7 +52,7 @@ export const Navbar: React.FC = () => {
               </a>
             </li>
             
-            {/* SERVICES - Simplified, removed dropdown */}
+            {/* SERVICES */}
             <li>
               <a href="#services" className={getLinkClasses('services')}>
                 Services
@@ -61,21 +61,21 @@ export const Navbar: React.FC = () => {
 
             {/* ABOUT */}
             <li>
-              <a href="#" className={getLinkClasses('about')}>
+              <a href="#about" className={getLinkClasses('about')}>
                 About
               </a>
             </li>
 
-            {/* PORTFOLIO */}
+            {/* TESTIMONIALS (Was Portfolio) */}
             <li>
-              <a href="#" className={getLinkClasses('portfolio')}>
-                Portfolio
+              <a href="#testimonials" className={getLinkClasses('testimonials')}>
+                Testimonials
               </a>
             </li>
 
             {/* CONTACT */}
             <li>
-              <a href="#" className={getLinkClasses('contact')}>
+              <a href="#contact" className={getLinkClasses('contact')}>
                 Contact
               </a>
             </li>

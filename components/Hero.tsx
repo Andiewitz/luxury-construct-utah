@@ -7,9 +7,13 @@ export const Hero: React.FC = () => {
         pointer-events-auto is needed on the inner container so text is selectable 
         and buttons clickable, but the main container lets clicks pass through 
         to the background elements.
+        
+        MOBILE ADJUSTMENTS:
+        1. Removed 'pt-20' on mobile (kept md:pt-20) to stop pushing content down.
+        2. Added '-mt-20' (negative margin) on mobile to optically lift the center above the browser bottom bar.
       */}
-      <div className="px-4 pt-20 pointer-events-auto">
-        <p className="font-display text-lg md:text-xl mb-6 text-gray-600 dark:text-gray-400 tracking-wide uppercase opacity-0 animate-[fadeIn_1s_ease-out_forwards]">
+      <div className="px-4 pt-0 md:pt-20 pointer-events-auto -mt-20 md:mt-0">
+        <p className="font-display text-lg md:text-xl mb-4 md:mb-6 text-gray-600 dark:text-gray-400 tracking-wide uppercase opacity-0 animate-[fadeIn_1s_ease-out_forwards]">
           Built to Last, Designed to Impress
         </p>
         
@@ -24,7 +28,8 @@ export const Hero: React.FC = () => {
           Landscaping Services in Salt Lake City
         </h1>
 
-        <div className="mt-12 opacity-0 animate-[fadeIn_1s_ease-out_0.6s_forwards] translate-y-4">
+        {/* Reduced margin-top on mobile to keep things tight */}
+        <div className="mt-8 md:mt-12 opacity-0 animate-[fadeIn_1s_ease-out_0.6s_forwards] translate-y-4">
           <a
             href="#"
             className="group inline-flex items-center justify-center bg-blue-600 text-white font-semibold font-sans px-10 py-4 rounded-full shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-2 border-transparent hover:bg-blue-700"
