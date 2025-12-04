@@ -12,7 +12,7 @@ export interface ServiceItem {
 
 export interface CubeConfig {
   id: number;
-  size: number; // Replaced width/height strings with a numeric size scalar
+  size: number;
   top?: string;
   left?: string;
   right?: string;
@@ -20,5 +20,28 @@ export interface CubeConfig {
   parallaxSpeed: number;
   zIndex?: number;
   colorTheme: 'moss' | 'olive' | 'sage' | 'gold';
-  rotation: number; // Rotation in degrees
+  rotation: number;
+}
+
+export interface SeoConfig {
+  metaTitle: string;
+  metaDescription: string;
+  keywords: string;
+}
+
+export type BlogTemplate = 'classic' | 'modern' | 'immersive';
+
+export interface BlogPost {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string; // Stored as simple text/html
+  coverImage: string;
+  category: string;
+  author: string;
+  date: string;
+  template: BlogTemplate;
+  seo: SeoConfig;
+  status: 'draft' | 'published';
 }

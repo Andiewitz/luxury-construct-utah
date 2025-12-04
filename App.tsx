@@ -1,7 +1,9 @@
+
 import React from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { Home } from './components/Home';
 import { BlogPublic } from './components/BlogPublic';
+import { BlogPost } from './components/BlogPost';
 import { AdminLogin } from './components/AdminLogin';
 import { AdminDashboard } from './components/AdminDashboard';
 import { NotFound } from './components/NotFound';
@@ -12,6 +14,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/blog" element={<BlogPublic />} />
+        <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/admin" element={<AdminLogin />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="*" element={<NotFound />} />
